@@ -1,13 +1,13 @@
-# YOXI-UI API
+# YOXI-UI: Библия GUI для Roblox
 
-## YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
-- **Описание**: Создаёт окно GUI.
-- **Параметры**:
-  - `destroyOnUnload`: (boolean) Уничтожать ли GUI при выгрузке.
-  - `title`: (string) Заголовок окна.
-  - `description`: (string) Описание.
-  - `keybind`: (Enum.KeyCode) Клавиша для открытия/закрытия.
-  - `logo`: (string) Asset ID иконки.
-- **Пример**:
-  ```lua
-  local Win = YOXI.new(true, "Моя GUI", "Тест", Enum.KeyCode.RightShift, "rbxassetid://4483345998")
+<image-card alt="GitHub" src="https://img.shields.io/github/license/xx1roch/YOXI-UI?color=green" ></image-card>
+<image-card alt="GitHub last commit" src="https://img.shields.io/github/last-commit/xx1roch/YOXI-UI/main?color=blue" ></image-card>
+<image-card alt="GitHub issues" src="https://img.shields.io/github/issues/xx1roch/YOXI-UI?color=red" ></image-card>
+
+Универсальная библиотека для создания стильных и анимированных интерфейсов в Roblox. Поддерживает переключатели, кнопки, выбор цвета, слайдеры, выпадающие списки и темы.
+
+## Установка
+
+1. Вставь следующий код в `LocalScript` в Roblox Studio:
+   ```lua
+   local YOXI = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/xx1roch/YOXI-UI/main/source.lua'))()
