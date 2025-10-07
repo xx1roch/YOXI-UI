@@ -1,5 +1,4 @@
-
--- YOXI-UI Library v1.1 (расширение на базе NOTHING)
+-- YOXI-UI Library v1.2 (с анимациями)
 -- Автор: xx1roch | GitHub: https://github.com/xx1roch/YOXI-UI
 -- Загрузка: loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/xx1roch/YOXI-UI/main/source.lua'))()
 
@@ -24,7 +23,7 @@ local function CreateGUI()
     return ScreenGui
 end
 
--- Window
+-- Window с анимацией
 function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
     local Window = {}
     local ScreenGui = CreateGUI()
@@ -34,6 +33,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
     MainFrame.BackgroundColor3 = CurrentTheme.Bg
     MainFrame.BorderSizePixel = 0
     MainFrame.Parent = ScreenGui
+    MainFrame.Visible = false -- Скрыто по умолчанию
 
     local TitleLabel = Instance.new("TextLabel")
     TitleLabel.Size = UDim2.new(1, 0, 0, 40)
@@ -81,8 +81,9 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 local state = default
                 Toggle.MouseButton1Click:Connect(function()
                     state = not state
+                    local tween = TweenService:Create(Toggle, TweenInfo.new(0.2), {BackgroundColor3 = state and CurrentTheme.Accent or CurrentTheme.Bg})
+                    tween:Play()
                     Toggle.Text = title .. ": " .. (state and "ON" or "OFF")
-                    Toggle.BackgroundColor3 = state and CurrentTheme.Accent or CurrentTheme.Bg
                     if callback then callback(state) end
                 end)
             end
@@ -95,10 +96,17 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 Button.BackgroundColor3 = CurrentTheme.Accent
                 Button.TextColor3 = CurrentTheme.Text
                 Button.Parent = SectionFrame
-                Button.MouseButton1Click:Connect(callback or function() print("Button clicked!") end)
+                Button.MouseButton1Click:Connect(function()
+                    local tween = TweenService:Create(Button, TweenInfo.new(0.1), {BackgroundColor3 = CurrentTheme.Accent:Lerp(Color3.new(0.5, 0.5, 0.5), 0.5)})
+                    tween:Play()
+                    tween.Completed:Wait()
+                    tween = TweenService:Create(Button, TweenInfo.new(0.1), {BackgroundColor3 = CurrentTheme.Accent})
+                    tween:Play()
+                    if callback then callback() end
+                end)
             end
 
-            -- ColorPicker (улучшенный с Hue/Saturation)
+            -- ColorPicker
             function Section:NewColorPicker(title, default, callback)
                 local Picker = Instance.new("Frame")
                 Picker.Size = UDim2.new(1, 0, 0, 100)
@@ -115,7 +123,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 ColorFrame.Size = UDim2.new(1, -10, 0, 80)
                 ColorFrame.Position = UDim2.new(0, 5, 0, 20)
                 ColorFrame.BackgroundColor3 = default or Color3.new(1, 1, 1)
-                ColorFrame.Image = "rbxassetid://4155801252" -- Градиент Hue/Saturation
+                ColorFrame.Image = "rbxassetid://4155801252"
                 ColorFrame.Parent = Picker
 
                 local PickerDot = Instance.new("Frame")
@@ -136,7 +144,8 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                             s = 1 - y
                             h = x
                             local color = Color3.fromHSV(h, s, v)
-                            ColorFrame.BackgroundColor3 = color
+                            local tween = TweenService:Create(ColorFrame, TweenInfo.new(0.2), {BackgroundColor3 = color})
+                            tween:Play()
                             PickerDot.Position = UDim2.new(x, -5, y, -5)
                             Label.Text = title .. ": " .. color:ToHex()
                             if callback then callback(color) end
@@ -161,12 +170,16 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 Label.Parent = Slider
 
                 local SliderBar = Instance.new("Frame")
-                SliderBar.Size = UDim2.new(0.8, 0, 0, 10)
+                SliderBar.Size = UDim2.new(0, 0, 0, 10) -- Начинается с 0 для анимации
                 SliderBar.Position = UDim2.new(0.1, 0, 0.5, 0)
                 SliderBar.BackgroundColor3 = CurrentTheme.Accent
                 SliderBar.Parent = Slider
 
                 local value = default
+                local tween = TweenService:Create(SliderBar, TweenInfo.new(0.3), {Size = UDim2.new(default / max * 0.8, 0, 0, 10)})
+                tween:Play()
+                Label.Text = title .. ": " .. default
+
                 SliderBar.InputBegan:Connect(function(input)
                     if input.UserInputType == Enum.UserInputType.MouseButton1 then
                         local drag = true
@@ -174,7 +187,9 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                             local mouse = UserInputService:GetMouseLocation()
                             local relative = (mouse.X - SliderBar.AbsolutePosition.X) / SliderBar.AbsoluteSize.X
                             value = math.clamp(min + (max - min) * relative, min, max)
-                            SliderBar.Size = UDim2.new(relative, 0, 0, 10)
+                            local newSize = UDim2.new(value / max * 0.8, 0, 0, 10)
+                            tween = TweenService:Create(SliderBar, TweenInfo.new(0.2), {Size = newSize})
+                            tween:Play()
                             Label.Text = title .. ": " .. math.floor(value)
                             if callback then callback(value) end
                             drag = input.UserInputState ~= Enum.UserInputState.End
@@ -216,7 +231,8 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                     OptionButton.Position = UDim2.new(0, 0, 0, (i - 1) * 30)
                     OptionButton.MouseButton1Click:Connect(function()
                         Label.Text = title .. ": " .. option
-                        DropdownList.Size = UDim2.new(1, 0, 0, 0)
+                        local tween = TweenService:Create(DropdownList, TweenInfo.new(0.2), {Size = UDim2.new(1, 0, 0, 0)})
+                        tween:Play()
                         isOpen = false
                         if callback then callback(option) end
                     end)
@@ -224,7 +240,9 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
 
                 Label.MouseButton1Click:Connect(function()
                     isOpen = not isOpen
-                    DropdownList.Size = UDim2.new(1, 0, 0, isOpen and #options * 30 or 0)
+                    local targetSize = isOpen and UDim2.new(1, 0, 0, #options * 30) or UDim2.new(1, 0, 0, 0)
+                    local tween = TweenService:Create(DropdownList, TweenInfo.new(0.2), {Size = targetSize})
+                    tween:Play()
                 end)
             end
 
@@ -235,6 +253,18 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
 
         table.insert(Tabs, TabFrame)
         return Tab
+    end
+
+    -- Анимация появления окна
+    local function AnimateWindow(show)
+        MainFrame.Visible = true
+        local targetPos = show and UDim2.new(0.5, -250, 0.5, -200) or UDim2.new(0.5, -250, 1, 0)
+        local tween = TweenService:Create(MainFrame, TweenInfo.new(0.3), {Position = targetPos})
+        tween:Play()
+        if not show then
+            tween.Completed:Wait()
+            MainFrame.Visible = false
+        end
     end
 
     local dragging = false
@@ -252,7 +282,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
 
     UserInputService.InputBegan:Connect(function(input)
         if input.KeyCode == keybind then
-            MainFrame.Visible = not MainFrame.Visible
+            AnimateWindow(not MainFrame.Visible)
         end
     end)
 
@@ -264,16 +294,21 @@ function YOXILibrary.Notification(title, desc, duration, icon)
     local ScreenGui = CreateGUI()
     local Notif = Instance.new("Frame")
     Notif.Size = UDim2.new(0, 300, 0, 100)
-    Notif.Position = UDim2.new(0, 10, 0, 10)
+    Notif.Position = UDim2.new(0, 10, 0, -100) -- Скрыто выше экрана
     Notif.BackgroundColor3 = CurrentTheme.Bg
     Notif.Parent = ScreenGui
 
     local Title = Instance.new("TextLabel")
     Title.Text = title
     Title.Parent = Notif
-    -- Добавь desc аналогично (упрощён для примера)
+    -- Добавь desc аналогично
 
+    local tweenIn = TweenService:Create(Notif, TweenInfo.new(0.3), {Position = UDim2.new(0, 10, 0, 10)})
+    tweenIn:Play()
     game:GetService("Debris"):AddItem(Notif, duration or 3)
+    tweenIn.Completed:Wait()
+    local tweenOut = TweenService:Create(Notif, TweenInfo.new(0.3), {Position = UDim2.new(0, 10, 0, -100)})
+    delay(duration or 3, function() tweenOut:Play() end)
 end
 
 -- Смена темы
