@@ -1,6 +1,5 @@
--- YOXI-UI Library v1.5 (с анимациями и дизайном)
+-- YOXI-UI Library v1.5 (локальная версия с исправлениями)
 -- Автор: xx1roch | GitHub: https://github.com/xx1roch/YOXI-UI
--- Загрузка: loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/xx1roch/YOXI-UI/main/source.lua'))()
 
 local YOXILibrary = {}
 local TweenService = game:GetService("TweenService")
@@ -139,11 +138,11 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                     tab.Visible = false
                 end
                 TabFrame.Visible = true
-                local tween = TweenService:Create(TabButton, TweenInfo.new(0.2), {BackgroundColor3 = CurrentTheme.LightGray})
+                local tween = TweenService:Create(TabButton, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = CurrentTheme.LightGray})
                 tween:Play()
                 for _, btn in pairs(TabList:GetChildren()) do
                     if btn ~= TabButton and btn:IsA("TextButton") then
-                        local tween2 = TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = CurrentTheme.DarkGray})
+                        local tween2 = TweenService:Create(btn, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = CurrentTheme.DarkGray})
                         tween2:Play()
                     end
                 end
@@ -183,7 +182,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                     IndicatorCorner.Parent = Indicator
                     Toggle.MouseButton1Click:Connect(function()
                         state = not state
-                        local tween = TweenService:Create(Indicator, TweenInfo.new(0.2), {BackgroundColor3 = state and CurrentTheme.LightGray or CurrentTheme.Gray})
+                        local tween = TweenService:Create(Indicator, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = state and CurrentTheme.LightGray or CurrentTheme.Gray})
                         tween:Play()
                         if callback then callback(state) end
                     end)
@@ -202,10 +201,10 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                     ButtonCorner.CornerRadius = UDim.new(0, 5)
                     ButtonCorner.Parent = Button
                     Button.MouseButton1Click:Connect(function()
-                        local tween = TweenService:Create(Button, TweenInfo.new(0.1), {BackgroundColor3 = CurrentTheme.LightGray:Lerp(Color3.new(0.5, 0.5, 0.5), 0.5)})
+                        local tween = TweenService:Create(Button, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = CurrentTheme.LightGray:Lerp(Color3.new(0.5, 0.5, 0.5), 0.5)})
                         tween:Play()
                         tween.Completed:Wait()
-                        tween = TweenService:Create(Button, TweenInfo.new(0.1), {BackgroundColor3 = CurrentTheme.LightGray})
+                        tween = TweenService:Create(Button, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = CurrentTheme.LightGray})
                         tween:Play()
                         if callback then callback() end
                     end)
@@ -256,7 +255,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                                 s = 1 - y
                                 h = x
                                 local color = Color3.fromHSV(h, s, v)
-                                local tween = TweenService:Create(ColorFrame, TweenInfo.new(0.2), {BackgroundColor3 = color})
+                                local tween = TweenService:Create(ColorFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = color})
                                 tween:Play()
                                 PickerDot.Position = UDim2.new(x, -5, y, -5)
                                 Label.Text = title .. ": " .. color:ToHex()
@@ -295,7 +294,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                     SliderBarCorner.Parent = SliderBar
 
                     local value = default
-                    local tween = TweenService:Create(SliderBar, TweenInfo.new(0.3), {Size = UDim2.new(default / max, 0, 0, 10)})
+                    local tween = TweenService:Create(SliderBar, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(default / max, 0, 0, 10)})
                     tween:Play()
                     Label.Text = title .. ": " .. default
 
@@ -307,7 +306,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                                 local relative = (mouse.X - SliderBar.AbsolutePosition.X) / SliderBar.AbsoluteSize.X
                                 value = math.clamp(min + (max - min) * relative, min, max)
                                 local newSize = UDim2.new(value / max, 0, 0, 10)
-                                tween = TweenService:Create(SliderBar, TweenInfo.new(0.2), {Size = newSize})
+                                tween = TweenService:Create(SliderBar, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = newSize})
                                 tween:Play()
                                 Label.Text = title .. ": " .. math.floor(value)
                                 if callback then callback(value) end
@@ -364,7 +363,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                         OptionButtonCorner.Parent = OptionButton
                         OptionButton.MouseButton1Click:Connect(function()
                             Label.Text = title .. ": " .. option
-                            local tween = TweenService:Create(DropdownList, TweenInfo.new(0.2), {Size = UDim2.new(1, 0, 0, 0)})
+                            local tween = TweenService:Create(DropdownList, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(1, 0, 0, 0)})
                             tween:Play()
                             isOpen = false
                             if callback then callback(option) end
@@ -374,7 +373,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                     Label.MouseButton1Click:Connect(function()
                         isOpen = not isOpen
                         local targetSize = isOpen and UDim2.new(1, 0, 0, #options * 30) or UDim2.new(1, 0, 0, 0)
-                        local tween = TweenService:Create(DropdownList, TweenInfo.new(0.2), {Size = targetSize})
+                        local tween = TweenService:Create(DropdownList, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = targetSize})
                         tween:Play()
                     end)
                     return Dropdown
@@ -442,7 +441,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                     local value = default
                     function Progress:SetValue(newValue)
                         value = math.clamp(newValue, min, max)
-                        local tween = TweenService:Create(Bar, TweenInfo.new(0.3), {Size = UDim2.new(value / max, 0, 0, 10)})
+                        local tween = TweenService:Create(Bar, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(value / max, 0, 0, 10)})
                         tween:Play()
                         Label.Text = title .. ": " .. math.floor((value / max) * 100) .. "%"
                         if callback then callback(value) end
@@ -509,18 +508,18 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                                         child:FindFirstChild("ToggleState").Value = value
                                         local toggle = child
                                         local state = value
-                                        local tween = TweenService:Create(toggle:FindFirstChild("Indicator"), TweenInfo.new(0.2), {BackgroundColor3 = state and CurrentTheme.LightGray or CurrentTheme.Gray})
+                                        local tween = TweenService:Create(toggle:FindFirstChild("Indicator"), TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = state and CurrentTheme.LightGray or CurrentTheme.Gray})
                                         tween:Play()
                                     elseif child:FindFirstChild("SliderValue") then
                                         child:FindFirstChild("SliderValue").Value = value
                                         local slider = child:FindFirstChild("SliderBar")
-                                        local tween = TweenService:Create(slider, TweenInfo.new(0.2), {Size = UDim2.new(value / child:FindFirstChild("SliderMax").Value, 0, 0, 10)})
+                                        local tween = TweenService:Create(slider, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(value / child:FindFirstChild("SliderMax").Value, 0, 0, 10)})
                                         tween:Play()
                                         child:FindFirstChild("Label").Text = child.Name .. ": " .. math.floor(value)
                                     elseif child:FindFirstChild("ColorValue") then
                                         child:FindFirstChild("ColorValue").Value = value
                                         local colorFrame = child:FindFirstChild("ColorFrame")
-                                        local tween = TweenService:Create(colorFrame, TweenInfo.new(0.2), {BackgroundColor3 = value})
+                                        local tween = TweenService:Create(colorFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = value})
                                         tween:Play()
                                         child:FindFirstChild("Label").Text = child.Name .. ": " .. value:ToHex()
                                     elseif child:FindFirstChild("DropdownValue") then
@@ -529,7 +528,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                                     elseif child:FindFirstChild("ProgressValue") then
                                         child:FindFirstChild("ProgressValue").Value = value
                                         local bar = child:FindFirstChild("Bar")
-                                        local tween = TweenService:Create(bar, TweenInfo.new(0.2), {Size = UDim2.new(value / child:FindFirstChild("ProgressMax").Value, 0, 0, 10)})
+                                        local tween = TweenService:Create(bar, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(value / child:FindFirstChild("ProgressMax").Value, 0, 0, 10)})
                                         tween:Play()
                                         child:FindFirstChild("Label").Text = child.Name .. ": " .. math.floor((value / child:FindFirstChild("ProgressMax").Value) * 100) .. "%"
                                     end
@@ -559,6 +558,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
     local function AnimateWindow(show)
         MainFrame.Visible = true
         if show then
+            MainFrame.Size = UDim2.new(0, 0, 0, 40)
             local tween = TweenService:Create(MainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(0, 600, 0, 400)})
             tween:Play()
         else
@@ -566,13 +566,11 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
             tween:Play()
             tween.Completed:Wait()
             MainFrame.Visible = false
-            tween = TweenService:Create(MainFrame, TweenInfo.new(0.1), {Size = UDim2.new(0, 600, 0, 400)})
-            tween:Play()
         end
     end
 
     -- Плавное перемещение
-    local dragging, dragInput, dragStart, startPos
+    local dragging, dragStart, startPos
     MainFrame.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 and not Header:FindFirstChildWhichIsA("TextButton"):IsDescendantOf(input.Target) then
             dragging = true
@@ -588,7 +586,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
     MainFrame.InputChanged:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
             local delta = input.Position - dragStart
-            local tween = TweenService:Create(MainFrame, TweenInfo.new(0.1), {Position = startPos + UDim2.new(0, delta.X, 0, delta.Y)})
+            local tween = TweenService:Create(MainFrame, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = startPos + UDim2.new(0, delta.X, 0, delta.Y)})
             tween:Play()
         end
     end)
@@ -596,6 +594,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
     UserInputService.InputBegan:Connect(function(input)
         if input.KeyCode == keybind then
             AnimateWindow(not MainFrame.Visible)
+            print("Keybind pressed:", keybind.Name)
         end
     end)
 
