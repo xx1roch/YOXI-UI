@@ -1,12 +1,15 @@
--- YOXI-UI Library v1.5 (оптимизированная для Roblox)
+-- YOXI-UI Library v1.5 (универсальная для Roblox, включая PlayStation)
 -- Автор: xx1roch | GitHub: https://github.com/xx1roch/YOXI-UI
 
 local YOXILibrary = {}
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
-local HttpService = game:GetService("HttpService")
+local HttpService = (function()
+    local success, service = pcall(function() return game:GetService("HttpService") end)
+    return success and service or nil
+end)()
 
--- Тема по умолчанию
+-- Тема по умолчанию (локальная, без загрузки через HTTP)
 local Themes = {
     Custom = {
         Bg = Color3.fromRGB(28, 37, 38),    -- Черный
@@ -18,12 +21,21 @@ local Themes = {
 }
 local CurrentTheme = Themes.Custom
 
--- Создание ScreenGui
+-- Создание ScreenGui с проверкой
 local function CreateGUI()
-    local ScreenGui = Instance.new("ScreenGui")
-    ScreenGui.Name = "YOXI-UI"
-    ScreenGui.Parent = game.CoreGui
-    ScreenGui.ResetOnSpawn = false
+    local ScreenGui
+    local success, err = pcall(function()
+        ScreenGui = Instance.new("ScreenGui")
+        ScreenGui.Name = "YOXI-UI"
+        ScreenGui.Parent = game.CoreGui
+        ScreenGui.ResetOnSpawn = false
+    end)
+    if not success then
+        warn("Не удалось создать ScreenGui: " .. (err or "неизвестная ошибка"))
+        ScreenGui = Instance.new("ScreenGui")
+        ScreenGui.Name = "YOXI-UI"
+        ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    end
     return ScreenGui
 end
 
@@ -305,7 +317,7 @@ function YOXILibrary.Notification(title, desc, duration)
     delay(duration or 3, function() tweenOut:Play() end)
 end
 
--- Смена темы
+-- Смена темы (без HTTP)
 function YOXILibrary.SetTheme(themeName)
     CurrentTheme = Themes[themeName] or Themes.Custom
     print("Theme changed to:", themeName)
