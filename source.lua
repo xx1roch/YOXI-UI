@@ -1,6 +1,5 @@
--- YOXI-UI Library v1.4 (с Keybind и Configs)
+-- YOXI-UI Library v1.4 (локальная версия)
 -- Автор: xx1roch | GitHub: https://github.com/xx1roch/YOXI-UI
--- Загрузка: loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/xx1roch/YOXI-UI/main/source.lua'))()
 
 local YOXILibrary = {}
 local TweenService = game:GetService("TweenService")
