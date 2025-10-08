@@ -1,4 +1,4 @@
--- YOXI-UI Library v1.3 (с новым дизайном)
+-- YOXI-UI Library v1.4 (с Keybind и Configs)
 -- Автор: xx1roch | GitHub: https://github.com/xx1roch/YOXI-UI
 -- Загрузка: loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/xx1roch/YOXI-UI/main/source.lua'))()
 
@@ -28,13 +28,13 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
     local Window = {}
     local ScreenGui = CreateGUI()
     local MainFrame = Instance.new("Frame")
-    MainFrame.Size = UDim2.new(0, 600, 0, 400) -- Увеличил для вкладок
+    MainFrame.Size = UDim2.new(0, 600, 0, 400)
     MainFrame.Position = UDim2.new(0.5, -300, 0.5, -200)
     MainFrame.BackgroundColor3 = CurrentTheme.Bg
     MainFrame.BorderSizePixel = 0
     MainFrame.Parent = ScreenGui
     local Corner = Instance.new("UICorner")
-    Corner.CornerRadius = UDim.new(0, 10) -- Закруглённые края
+    Corner.CornerRadius = UDim.new(0, 10)
     Corner.Parent = MainFrame
     MainFrame.Visible = false
 
@@ -50,7 +50,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
     local Logo = Instance.new("ImageLabel")
     Logo.Size = UDim2.new(0, 30, 0, 30)
     Logo.Position = UDim2.new(0, 5, 0, 5)
-    Logo.Image = logo or "rbxassetid://6031090997" -- По умолчанию треугольник
+    Logo.Image = logo or "rbxassetid://6031090997"
     Logo.Parent = Header
 
     local TitleLabel = Instance.new("TextLabel")
@@ -95,7 +95,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
     ContentFrame.BackgroundColor3 = CurrentTheme.Bg
     ContentFrame.Parent = MainFrame
     local ContentCorner = Instance.new("UICorner")
-    ContentCorner.CornerRadius = UDim2.new(0, 10)
+    ContentCorner.CornerRadius = UDim.new(0, 10)
     ContentCorner.Parent = ContentFrame
 
     local Tabs = {}
@@ -109,7 +109,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
         TabButton.TextColor3 = CurrentTheme.Text
         TabButton.Parent = TabList
         local TabButtonCorner = Instance.new("UICorner")
-        TabButtonCorner.CornerRadius = UDim2.new(0, 5)
+        TabButtonCorner.CornerRadius = UDim.new(0, 5)
         TabButtonCorner.Parent = TabButton
 
         local TabFrame = Instance.new("Frame")
@@ -118,7 +118,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
         TabFrame.BackgroundTransparency = 1
         TabFrame.Parent = ContentFrame
         local TabFrameCorner = Instance.new("UICorner")
-        TabFrameCorner.CornerRadius = UDim2.new(0, 10)
+        TabFrameCorner.CornerRadius = UDim.new(0, 10)
         TabFrameCorner.Parent = TabFrame
 
         if #Tabs == 0 then
@@ -150,7 +150,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
             SectionFrame.BackgroundColor3 = CurrentTheme.Bg
             SectionFrame.Parent = TabFrame
             local SectionCorner = Instance.new("UICorner")
-            SectionCorner.CornerRadius = UDim2.new(0, 5)
+            SectionCorner.CornerRadius = UDim.new(0, 5)
             SectionCorner.Parent = SectionFrame
             SectionFrame.Position = UDim2.new(0, 0, 0, (#Sections * 60))
 
@@ -163,7 +163,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 Toggle.TextColor3 = CurrentTheme.Text
                 Toggle.Parent = SectionFrame
                 local ToggleCorner = Instance.new("UICorner")
-                ToggleCorner.CornerRadius = UDim2.new(0, 5)
+                ToggleCorner.CornerRadius = UDim.new(0, 5)
                 ToggleCorner.Parent = Toggle
                 local state = default
                 local Indicator = Instance.new("Frame")
@@ -172,7 +172,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 Indicator.BackgroundColor3 = state and CurrentTheme.Accent or CurrentTheme.Bg
                 Indicator.Parent = Toggle
                 local IndicatorCorner = Instance.new("UICorner")
-                IndicatorCorner.CornerRadius = UDim2.new(0, 5)
+                IndicatorCorner.CornerRadius = UDim.new(0, 5)
                 IndicatorCorner.Parent = Indicator
                 Toggle.MouseButton1Click:Connect(function()
                     state = not state
@@ -192,7 +192,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 Button.TextColor3 = CurrentTheme.Text
                 Button.Parent = SectionFrame
                 local ButtonCorner = Instance.new("UICorner")
-                ButtonCorner.CornerRadius = UDim2.new(0, 5)
+                ButtonCorner.CornerRadius = UDim.new(0, 5)
                 ButtonCorner.Parent = Button
                 Button.MouseButton1Click:Connect(function()
                     local tween = TweenService:Create(Button, TweenInfo.new(0.1), {BackgroundColor3 = CurrentTheme.Accent:Lerp(Color3.new(0.5, 0.5, 0.5), 0.5)})
@@ -212,7 +212,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 Picker.BackgroundColor3 = CurrentTheme.Bg
                 Picker.Parent = SectionFrame
                 local PickerCorner = Instance.new("UICorner")
-                PickerCorner.CornerRadius = UDim2.new(0, 5)
+                PickerCorner.CornerRadius = UDim.new(0, 5)
                 PickerCorner.Parent = Picker
 
                 local Label = Instance.new("TextLabel")
@@ -228,7 +228,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 ColorFrame.Image = "rbxassetid://4155801252"
                 ColorFrame.Parent = Picker
                 local ColorFrameCorner = Instance.new("UICorner")
-                ColorFrameCorner.CornerRadius = UDim2.new(0, 5)
+                ColorFrameCorner.CornerRadius = UDim.new(0, 5)
                 ColorFrameCorner.Parent = ColorFrame
 
                 local PickerDot = Instance.new("Frame")
@@ -269,7 +269,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 Slider.BackgroundColor3 = CurrentTheme.Bg
                 Slider.Parent = SectionFrame
                 local SliderCorner = Instance.new("UICorner")
-                SliderCorner.CornerRadius = UDim2.new(0, 5)
+                SliderCorner.CornerRadius = UDim.new(0, 5)
                 SliderCorner.Parent = Slider
 
                 local Label = Instance.new("TextLabel")
@@ -284,7 +284,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 SliderBar.BackgroundColor3 = CurrentTheme.Accent
                 SliderBar.Parent = Slider
                 local SliderBarCorner = Instance.new("UICorner")
-                SliderBarCorner.CornerRadius = UDim2.new(0, 5)
+                SliderBarCorner.CornerRadius = UDim.new(0, 5)
                 SliderBarCorner.Parent = SliderBar
 
                 local value = default
@@ -319,7 +319,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 Dropdown.BackgroundColor3 = CurrentTheme.Bg
                 Dropdown.Parent = SectionFrame
                 local DropdownCorner = Instance.new("UICorner")
-                DropdownCorner.CornerRadius = UDim2.new(0, 5)
+                DropdownCorner.CornerRadius = UDim.new(0, 5)
                 DropdownCorner.Parent = Dropdown
 
                 local Label = Instance.new("TextButton")
@@ -329,7 +329,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 Label.TextColor3 = CurrentTheme.Text
                 Label.Parent = Dropdown
                 local LabelCorner = Instance.new("UICorner")
-                LabelCorner.CornerRadius = UDim2.new(0, 5)
+                LabelCorner.CornerRadius = UDim.new(0, 5)
                 LabelCorner.Parent = Label
 
                 local isOpen = false
@@ -341,7 +341,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 DropdownList.Parent = Dropdown
                 DropdownList.CanvasSize = UDim2.new(0, 0, 0, #options * 30)
                 local DropdownListCorner = Instance.new("UICorner")
-                DropdownListCorner.CornerRadius = UDim2.new(0, 5)
+                DropdownListCorner.CornerRadius = UDim.new(0, 5)
                 DropdownListCorner.Parent = DropdownList
 
                 for i, option in pairs(options) do
@@ -353,7 +353,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                     OptionButton.Parent = DropdownList
                     OptionButton.Position = UDim2.new(0, 5, 0, (i - 1) * 30)
                     local OptionButtonCorner = Instance.new("UICorner")
-                    OptionButtonCorner.CornerRadius = UDim2.new(0, 5)
+                    OptionButtonCorner.CornerRadius = UDim.new(0, 5)
                     OptionButtonCorner.Parent = OptionButton
                     OptionButton.MouseButton1Click:Connect(function()
                         Label.Text = title .. ": " .. option
@@ -373,6 +373,40 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 return Dropdown
             end
 
+            -- Keybind
+            function Section:NewKeybind(title, default, callback)
+                local Keybind = Instance.new("Frame")
+                Keybind.Size = UDim2.new(1, -10, 0, 30)
+                Keybind.BackgroundColor3 = CurrentTheme.Bg
+                Keybind.Parent = SectionFrame
+                local KeybindCorner = Instance.new("UICorner")
+                KeybindCorner.CornerRadius = UDim.new(0, 5)
+                KeybindCorner.Parent = Keybind
+
+                local Label = Instance.new("TextButton")
+                Label.Size = UDim2.new(1, 0, 1, 0)
+                Label.Text = title .. ": " .. (default.Name or "RightControl")
+                Label.BackgroundColor3 = CurrentTheme.Bg
+                Label.TextColor3 = CurrentTheme.Text
+                Label.Parent = Keybind
+                local LabelCorner = Instance.new("UICorner")
+                LabelCorner.CornerRadius = UDim.new(0, 5)
+                LabelCorner.Parent = Label
+
+                local currentKey = default or Enum.KeyCode.RightControl
+                Label.MouseButton1Click:Connect(function()
+                    Label.Text = title .. ": [...]"
+                    local inputwait = UserInputService.InputBegan:Wait()
+                    if inputwait.KeyCode ~= Enum.KeyCode.Unknown then
+                        currentKey = inputwait.KeyCode
+                        Label.Text = title .. ": " .. currentKey.Name
+                        if callback then callback(currentKey) end
+                    end
+                end)
+
+                return Keybind
+            end
+
             -- ProgressBar
             function Section:NewProgressBar(title, min, max, default, callback)
                 local Progress = Instance.new("Frame")
@@ -380,7 +414,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 Progress.BackgroundColor3 = CurrentTheme.Bg
                 Progress.Parent = SectionFrame
                 local ProgressCorner = Instance.new("UICorner")
-                ProgressCorner.CornerRadius = UDim2.new(0, 5)
+                ProgressCorner.CornerRadius = UDim.new(0, 5)
                 ProgressCorner.Parent = Progress
 
                 local Label = Instance.new("TextLabel")
@@ -395,7 +429,7 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 Bar.BackgroundColor3 = CurrentTheme.Accent
                 Bar.Parent = Progress
                 local BarCorner = Instance.new("UICorner")
-                BarCorner.CornerRadius = UDim2.new(0, 5)
+                BarCorner.CornerRadius = UDim.new(0, 5)
                 BarCorner.Parent = Bar
 
                 local value = default
@@ -410,8 +444,100 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                 return Progress
             end
 
+            -- Config System
+            function Section:NewConfigButton(saveCallback, loadCallback)
+                local ConfigButton = Instance.new("TextButton")
+                ConfigButton.Size = UDim2.new(1, -10, 0, 30)
+                ConfigButton.Text = "Save Config"
+                ConfigButton.BackgroundColor3 = CurrentTheme.Accent
+                ConfigButton.TextColor3 = CurrentTheme.Text
+                ConfigButton.Parent = SectionFrame
+                local ConfigButtonCorner = Instance.new("UICorner")
+                ConfigButtonCorner.CornerRadius = UDim.new(0, 5)
+                ConfigButtonCorner.Parent = ConfigButton
+
+                ConfigButton.MouseButton1Click:Connect(function()
+                    local config = {}
+                    for _, child in pairs(SectionFrame:GetChildren()) do
+                        if child:IsA("Frame") or child:IsA("TextButton") then
+                            if child:FindFirstChild("ToggleState") then
+                                config[child.Name] = child:FindFirstChild("ToggleState").Value
+                            elseif child:FindFirstChild("SliderValue") then
+                                config[child.Name] = child:FindFirstChild("SliderValue").Value
+                            elseif child:FindFirstChild("ColorValue") then
+                                config[child.Name] = child:FindFirstChild("ColorValue").Value
+                            elseif child:FindFirstChild("DropdownValue") then
+                                config[child.Name] = child:FindFirstChild("DropdownValue").Value
+                            elseif child:FindFirstChild("ProgressValue") then
+                                config[child.Name] = child:FindFirstChild("ProgressValue").Value
+                            end
+                        end
+                    end
+                    local json = HttpService:JSONEncode(config)
+                    if not isfolder("YOXI-Configs") then makefolder("YOXI-Configs") end
+                    writefile("YOXI-Configs/config.json", json)
+                    if saveCallback then saveCallback() end
+                    YOXI.Notification("Success", "Config saved!", 2)
+                end)
+
+                local LoadButton = Instance.new("TextButton")
+                LoadButton.Size = UDim2.new(1, -10, 0, 30)
+                LoadButton.Position = UDim2.new(0, 0, 0, 40)
+                LoadButton.Text = "Load Config"
+                LoadButton.BackgroundColor3 = CurrentTheme.Accent
+                LoadButton.TextColor3 = CurrentTheme.Text
+                LoadButton.Parent = SectionFrame
+                local LoadButtonCorner = Instance.new("UICorner")
+                LoadButtonCorner.CornerRadius = UDim.new(0, 5)
+                LoadButtonCorner.Parent = LoadButton
+
+                LoadButton.MouseButton1Click:Connect(function()
+                    if isfile("YOXI-Configs/config.json") then
+                        local json = readfile("YOXI-Configs/config.json")
+                        local config = HttpService:JSONDecode(json)
+                        for name, value in pairs(config) do
+                            local child = SectionFrame:FindFirstChild(name)
+                            if child then
+                                if child:FindFirstChild("ToggleState") then
+                                    child:FindFirstChild("ToggleState").Value = value
+                                    local toggle = child
+                                    local state = value
+                                    local tween = TweenService:Create(toggle:FindFirstChild("Indicator"), TweenInfo.new(0.2), {BackgroundColor3 = state and CurrentTheme.Accent or CurrentTheme.Bg})
+                                    tween:Play()
+                                elseif child:FindFirstChild("SliderValue") then
+                                    child:FindFirstChild("SliderValue").Value = value
+                                    local slider = child:FindFirstChild("SliderBar")
+                                    local tween = TweenService:Create(slider, TweenInfo.new(0.2), {Size = UDim2.new(value / child:FindFirstChild("SliderMax").Value, 0, 0, 10)})
+                                    tween:Play()
+                                    child:FindFirstChild("Label").Text = child.Name .. ": " .. math.floor(value)
+                                elseif child:FindFirstChild("ColorValue") then
+                                    child:FindFirstChild("ColorValue").Value = value
+                                    local colorFrame = child:FindFirstChild("ColorFrame")
+                                    local tween = TweenService:Create(colorFrame, TweenInfo.new(0.2), {BackgroundColor3 = value})
+                                    tween:Play()
+                                    child:FindFirstChild("Label").Text = child.Name .. ": " .. value:ToHex()
+                                elseif child:FindFirstChild("DropdownValue") then
+                                    child:FindFirstChild("DropdownValue").Value = value
+                                    child:FindFirstChild("Label").Text = child.Name .. ": " .. value
+                                elseif child:FindFirstChild("ProgressValue") then
+                                    child:FindFirstChild("ProgressValue").Value = value
+                                    local bar = child:FindFirstChild("Bar")
+                                    local tween = TweenService:Create(bar, TweenInfo.new(0.2), {Size = UDim2.new(value / child:FindFirstChild("ProgressMax").Value, 0, 0, 10)})
+                                    tween:Play()
+                                    child:FindFirstChild("Label").Text = child.Name .. ": " .. math.floor((value / child:FindFirstChild("ProgressMax").Value) * 100) .. "%"
+                                end
+                            end
+                        end
+                        if loadCallback then loadCallback() end
+                        YOXI.Notification("Success", "Config loaded!", 2)
+                    else
+                        YOXI.Notification("Error", "No config found!", 2)
+                    end
+                end)
+            end
+
             table.insert(Sections, SectionFrame)
-            TabFrame.Size = UDim2.new(1, -10, 0, #Sections * 60)
+            TabFrame.Size = UDim2.new(1, -10, 0, #Sections * 60 + 70)
             return Section
         end
 
@@ -463,13 +589,12 @@ function YOXILibrary.Notification(title, desc, duration, icon)
     Notif.BackgroundColor3 = CurrentTheme.Bg
     Notif.Parent = ScreenGui
     local NotifCorner = Instance.new("UICorner")
-    NotifCorner.CornerRadius = UDim2.new(0, 10)
+    NotifCorner.CornerRadius = UDim.new(0, 10)
     NotifCorner.Parent = Notif
 
     local Title = Instance.new("TextLabel")
     Title.Text = title
     Title.Parent = Notif
-    -- Добавь desc аналогично
 
     local tweenIn = TweenService:Create(Notif, TweenInfo.new(0.3), {Position = UDim2.new(0, 10, 0, 10)})
     tweenIn:Play()
