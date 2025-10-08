@@ -357,4 +357,150 @@ function YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
                     OptionButtonCorner.Parent = OptionButton
                     OptionButton.MouseButton1Click:Connect(function()
                         Label.Text = title .. ": " .. option
-                        local tween = TweenService:Create(DropdownList, TweenInfo.new(0.2), {Size = U
+                        local tween = TweenService:Create(DropdownList, TweenInfo.new(0.2), {Size = UDim2.new(1, 0, 0, 0)})
+                        tween:Play()
+                        isOpen = false
+                        if callback then callback(option) end
+                    end)
+                end
+
+                Label.MouseButton1Click:Connect(function()
+                    isOpen = not isOpen
+                    local targetSize = isOpen and UDim2.new(1, 0, 0, #options * 30) or UDim2.new(1, 0, 0, 0)
+                    local tween = TweenService:Create(DropdownList, TweenInfo.new(0.2), {Size = targetSize})
+                    tween:Play()
+                end)
+                return Dropdown
+            end
+
+            -- ProgressBar
+            function Section:NewProgressBar(title, min, max, default, callback)
+                local Progress = Instance.new("Frame")
+                Progress.Size = UDim2.new(1, -10, 0, 40)
+                Progress.BackgroundColor3 = CurrentTheme.Bg
+                Progress.Parent = SectionFrame
+                local ProgressCorner = Instance.new("UICorner")
+                ProgressCorner.CornerRadius = UDim2.new(0, 5)
+                ProgressCorner.Parent = Progress
+
+                local Label = Instance.new("TextLabel")
+                Label.Size = UDim2.new(1, 0, 0, 20)
+                Label.Text = title .. ": " .. math.floor((default / max) * 100) .. "%"
+                Label.TextColor3 = CurrentTheme.Text
+                Label.Parent = Progress
+
+                local Bar = Instance.new("Frame")
+                Bar.Size = UDim2.new(default / max, 0, 0, 10)
+                Bar.Position = UDim2.new(0, 0, 0.5, 0)
+                Bar.BackgroundColor3 = CurrentTheme.Accent
+                Bar.Parent = Progress
+                local BarCorner = Instance.new("UICorner")
+                BarCorner.CornerRadius = UDim2.new(0, 5)
+                BarCorner.Parent = Bar
+
+                local value = default
+                function Progress:SetValue(newValue)
+                    value = math.clamp(newValue, min, max)
+                    local tween = TweenService:Create(Bar, TweenInfo.new(0.3), {Size = UDim2.new(value / max, 0, 0, 10)})
+                    tween:Play()
+                    Label.Text = title .. ": " .. math.floor((value / max) * 100) .. "%"
+                    if callback then callback(value) end
+                end
+
+                return Progress
+            end
+
+            table.insert(Sections, SectionFrame)
+            TabFrame.Size = UDim2.new(1, -10, 0, #Sections * 60)
+            return Section
+        end
+
+        table.insert(Tabs, TabFrame)
+        TabList.CanvasSize = UDim2.new(0, 0, 0, #Tabs * 40)
+        return Tab
+    end
+
+    -- Анимация появления окна
+    local function AnimateWindow(show)
+        MainFrame.Visible = true
+        local targetPos = show and UDim2.new(0.5, -300, 0.5, -200) or UDim2.new(0.5, -300, 1, 0)
+        local tween = TweenService:Create(MainFrame, TweenInfo.new(0.3), {Position = targetPos})
+        tween:Play()
+        if not show then
+            tween.Completed:Wait()
+            MainFrame.Visible = false
+        end
+    end
+
+    local dragging = false
+    MainFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 and not Header:FindFirstChildWhichIsA("TextButton"):IsDescendantOf(input.Target) then dragging = true end
+    end)
+    UserInputService.InputChanged:Connect(function(input)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            MainFrame.Position = MainFrame.Position + UDim2.new(0, input.Delta.X, 0, input.Delta.Y)
+        end
+    end)
+    MainFrame.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end
+    end)
+
+    UserInputService.InputBegan:Connect(function(input)
+        if input.KeyCode == keybind then
+            AnimateWindow(not MainFrame.Visible)
+        end
+    end)
+
+    return Window
+end
+
+-- Notification
+function YOXILibrary.Notification(title, desc, duration, icon)
+    local ScreenGui = CreateGUI()
+    local Notif = Instance.new("Frame")
+    Notif.Size = UDim2.new(0, 300, 0, 100)
+    Notif.Position = UDim2.new(0, 10, 0, -100)
+    Notif.BackgroundColor3 = CurrentTheme.Bg
+    Notif.Parent = ScreenGui
+    local NotifCorner = Instance.new("UICorner")
+    NotifCorner.CornerRadius = UDim2.new(0, 10)
+    NotifCorner.Parent = Notif
+
+    local Title = Instance.new("TextLabel")
+    Title.Text = title
+    Title.Parent = Notif
+    -- Добавь desc аналогично
+
+    local tweenIn = TweenService:Create(Notif, TweenInfo.new(0.3), {Position = UDim2.new(0, 10, 0, 10)})
+    tweenIn:Play()
+    game:GetService("Debris"):AddItem(Notif, duration or 3)
+    tweenIn.Completed:Wait()
+    local tweenOut = TweenService:Create(Notif, TweenInfo.new(0.3), {Position = UDim2.new(0, 10, 0, -100)})
+    delay(duration or 3, function() tweenOut:Play() end)
+end
+
+-- Смена темы
+function YOXILibrary.SetTheme(themeName)
+    CurrentTheme = Themes[themeName] or Themes.Dark
+    print("Theme changed to:", themeName)
+end
+
+-- Загрузка темы из JSON
+function YOXILibrary.LoadTheme(themeName)
+    local success, result = pcall(function()
+        return game:HttpGetAsync('https://raw.githubusercontent.com/xx1roch/YOXI-UI/main/themes/' .. themeName .. '.json')
+    end)
+    if success then
+        local theme = HttpService:JSONDecode(result)
+        CurrentTheme = {
+            Bg = Color3.fromRGB(theme.Bg[1], theme.Bg[2], theme.Bg[3]),
+            Accent = Color3.fromRGB(theme.Accent[1], theme.Accent[2], theme.Accent[3]),
+            Text = Color3.fromRGB(theme.Text[1], theme.Text[2], theme.Text[3])
+        }
+        print("Загружена тема:", themeName)
+    else
+        warn("Ошибка загрузки темы:", result)
+    end
+end
+
+return YOXILibrary
