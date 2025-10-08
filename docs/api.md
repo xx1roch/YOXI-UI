@@ -1,13 +1,20 @@
-# YOXI-UI: Библия GUI для Roblox
+# YOXI-UI API
 
-<image-card alt="GitHub" src="https://img.shields.io/github/license/xx1roch/YOXI-UI?color=green" ></image-card>
-<image-card alt="GitHub last commit" src="https://img.shields.io/github/last-commit/xx1roch/YOXI-UI/main?color=blue" ></image-card>
-<image-card alt="GitHub issues" src="https://img.shields.io/github/issues/xx1roch/YOXI-UI?color=red" ></image-card>
+## YOXILibrary.new(destroyOnUnload, title, description, keybind, logo)
+- **Описание**: Создаёт окно с вертикальными вкладками.
+- **Параметры**: См. предыдущий `api.md`.
 
-Универсальная библиотека для создания стильных и анимированных интерфейсов в Roblox. Поддерживает переключатели, кнопки, выбор цвета, слайдеры, выпадающие списки и темы.
-
-## Установка
-
-1. Вставь следующий код в `LocalScript` в Roblox Studio:
-   ```lua
-   local YOXI = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/xx1roch/YOXI-UI/main/source.lua'))()
+## Section:NewProgressBar(title, min, max, default, callback)
+- **Описание**: Создаёт полосу прогресса.
+- **Параметры**:
+  - `title`: (string) Название.
+  - `min`: (number) Минимальное значение.
+  - `max`: (number) Максимальное значение.
+  - `default`: (number) Начальное значение.
+  - `callback`: (function) Функция при изменении.
+- **Методы**:
+  - `SetValue(newValue)`: Устанавливает новое значение.
+- **Пример**:
+  ```lua
+  local progress = Sec:NewProgressBar("Progress", 0, 100, 0, function(value) print(value) end)
+  progress:SetValue(50)
